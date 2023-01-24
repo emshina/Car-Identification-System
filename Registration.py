@@ -2,23 +2,17 @@ from tkinter import *
 from tkinter import messagebox
 from dat import Database
 
-
 ps = Database()
 def populate_list():
     
     parts_list.delete(0, END)
     for row in ps.fetch():
         parts_list.insert(END, row)
-
-
-def add_item():
+        
+def add_item():# adding to the database
     if number_plate.get() == '' or phone_number.get() == '' or id.get() == '':
         messagebox.showerror('Required Fields', 'Please include all fields')
         return
-        
-    # if number_plate.get() in number_plate:
-    #     messagebox.showerror('should be unique')
-    #     return
     try:
         ps.insert(number_plate.get(), phone_number.get(),id.get())
 
@@ -52,19 +46,6 @@ def remove_item():
     ps.remove(selected_item[0])
     clear_text()
     populate_list()
-
-
-# def details():
-#     ps.get_details(plate_entry)
-#     for row in ps.get_details():
-#        parts_list.insert(END, row)
-
-#     clear_text()
-#     populate_list()
-
-
-
-
 def update_item():
     ps.update(selected_item[0],number_plate.get(), phone_number.get(),id.get())
     populate_list()
@@ -80,45 +61,28 @@ def clear_text():
 app = Tk()
 app.configure(bg="black",highlightthickness=7,highlightcolor="blue")
 
-# Part
+# Number plate
 number_plate = StringVar()
 part_label = Label(app, text='NumberPlate', font=('bold', 14), pady=20,bg="black",fg="blue")
 part_label.grid(row=0, column=0, sticky=W)
 number_plate_entry = Entry(app, textvariable=number_plate,bg="gray")
 number_plate_entry.grid(row=0, column=1)
-# Customer
+# Phone number
 phone_number = StringVar()
 customer_label = Label(app, text='PhoneNUmber', font=('bold', 14),bg="black",fg="blue")
 customer_label.grid(row=0, column=2, sticky=W)
 phone_number_entry = Entry(app, textvariable=phone_number,bg="gray")
 phone_number_entry.grid(row=0, column=3)
-# Retailer
+# Identification
 id = StringVar()
 retailer_label = Label(app, text='Identification', font=('bold', 14),bg="black",fg="blue")
 retailer_label.grid(row=1, column=0, sticky=W)
 id_entry = Entry(app, textvariable=id,bg="gray")
 id_entry.grid(row=1, column=1)
 
-
-
-# get details of owner
-# plate = StringVar()
-# plate_label = Button(app, text='Plate', font=('bold', 14), pady=20,bg="black",fg="blue",command=details)
-# plate_label.grid(row=0, column=4, sticky=W)
-# plate_entry = Entry(app, textvariable=number_plate,bg="gray")
-# plate_entry.grid(row=0, column=5)
-
-
-
 # Parts List (Listbox)
 plate_list = Listbox(app, height=8, width=50,border=0,bg="gray")
 plate_list.grid(row=4, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
-# Create scrollbar
-
-
-
-
-
 # Parts List (Listbox)
 parts_list = Listbox(app, height=8, width=50,border=0,bg="gray")
 parts_list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
